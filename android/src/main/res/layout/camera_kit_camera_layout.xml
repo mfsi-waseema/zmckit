@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/camera_layout_root">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ViewStub
+            android:id="@+id/camerakit_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inflatedId="@+id/camerakit_root" />
+    </FrameLayout>
+
+    <com.snap.camerakit.support.widget.SnapButtonView
+        android:id="@+id/button_capture"
+        android:layout_width="@dimen/camera_kit_snap_button_size"
+        android:layout_height="@dimen/camera_kit_snap_button_size"
+        android:layout_marginBottom="@dimen/camera_kit_snap_button_margin_bottom"
+        android:padding="@dimen/camera_kit_snap_button_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeWidth="@dimen/camera_kit_snap_button_stroke_width"
+        app:strokeColor="@color/camera_kit_snap_button_idle"
+        app:strokeColorActivated="@color/camera_kit_snap_button_idle"
+        app:centerFillColor="@color/camera_kit_snap_button_idle"
+        app:progressDuration="@integer/camera_kit_snap_button_progress_duration"
+        app:progressCycleRepeatCount="@integer/camera_kit_snap_button_progress_cycle_repeat_count"
+        app:progressCycleEndCapture="@integer/camera_kit_snap_button_progress_cycle_end_capture"
+        app:expandDuration="@integer/camera_kit_snap_button_expand_duration"
+        />
+
+    <include
+        android:id="@+id/snap_attribution"
+        layout="@layout/camera_kit_snap_attribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/camera_kit_snap_attribution_margin_end"
+        android:layout_marginBottom="@dimen/camera_kit_snap_attribution_margin_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</merge>

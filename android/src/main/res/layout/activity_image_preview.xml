@@ -1,0 +1,55 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- ImageView for full-screen image preview -->
+    <ImageView
+        android:id="@+id/preview_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="Preview"/>
+
+    <!-- Close Button in the top-right corner -->
+    <ImageButton
+        android:id="@+id/close_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/close_24"
+        android:layout_gravity="top|end"
+        android:contentDescription="Close"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_margin="16dp" /> <!-- Optional margin for spacing -->
+
+    <!-- Container for the buttons below the image -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:padding="16dp"
+        android:layout_gravity="bottom">
+
+        <!-- Share Button -->
+        <ImageButton
+            android:id="@+id/share_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Share"
+            android:src="@drawable/share_24"
+            android:background="?android:attr/selectableItemBackground" />
+
+        <!-- Download Button -->
+        <ImageButton
+            android:id="@+id/download_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/downward_24"
+            android:layout_marginStart="16dp"
+            android:contentDescription="Download"
+            android:background="?android:attr/selectableItemBackground" />
+
+    </LinearLayout>
+
+</FrameLayout>
