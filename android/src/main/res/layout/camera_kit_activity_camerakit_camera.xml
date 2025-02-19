@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zmckitlibrary.widgets.SnapCameraLayout
+<com.snap.camerakit.support.widget.CameraLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/snap_camera_layout"
     android:layout_width="match_parent"

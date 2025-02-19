@@ -1,4 +1,4 @@
-package com.zmckitlibrary.widgets
+package com.snapsample.java.zmckitlibrary.widgets
 
 import android.content.Context
 import android.net.Uri
@@ -11,7 +11,8 @@ import com.snap.camerakit.ImageProcessor
 import com.snap.camerakit.UnauthorizedApplicationException
 import com.snap.camerakit.lenses.LensesComponent
 import com.snap.camerakit.lenses.whenHasSome
-import com.zmckitlibrary.R
+import com.snap.camerakit.support.widget.CameraLayout
+import com.snapsample.R
 import com.zmckitlibrary.ZMCKitManager
 import java.io.Closeable
 import java.util.concurrent.atomic.AtomicBoolean
@@ -22,7 +23,7 @@ class ZMCameraLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private lateinit var cameraLayout: SnapCameraLayout
+    private lateinit var cameraLayout: CameraLayout
     private var cameraSession: com.snap.camerakit.Session? = null
     private val closeOnDestroy = mutableListOf<Closeable>()
 
@@ -36,7 +37,7 @@ class ZMCameraLayout @JvmOverloads constructor(
     ) {
         inflate(context, R.layout.camera_kit_activity_camerakit_camera, this)
 
-        cameraLayout = findViewById<SnapCameraLayout>(R.id.snap_camera_layout).apply {
+        cameraLayout = findViewById<CameraLayout>(R.id.snap_camera_layout).apply {
             configureSession { apiToken(apiToken) }
 
             configureLensesCarousel {
@@ -124,9 +125,9 @@ class ZMCameraLayout @JvmOverloads constructor(
         return when (error) {
             is UnauthorizedApplicationException ->
                 IllegalStateException("Application is not authorized to use CameraKit", error)
-            is SnapCameraLayout.Failure.DeviceNotSupported ->
+            is CameraLayout.Failure.DeviceNotSupported ->
                 UnsupportedOperationException("Device not supported by CameraKit", error)
-            is SnapCameraLayout.Failure.MissingPermissions ->
+            is CameraLayout.Failure.MissingPermissions ->
                 SecurityException(
                         "Camera permissions not granted. Please enable them in settings.")
             is ImageProcessor.Failure.Graphics ->
