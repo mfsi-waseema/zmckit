@@ -85,10 +85,7 @@ dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-  def cameraKitVersion = '1.34.0'
-  implementation "com.snap.camerakit:camerakit:$cameraKitVersion"
-  implementation "com.snap.camerakit:support-camerax:$cameraKitVersion"
-  implementation "com.snap.camerakit:support-camera-layout:$cameraKitVersion"
+  implementation 'com.ziylanmedya:zmckit:1.0.3'
 
   implementation 'com.google.android.material:material:1.12.0'
 }

@@ -13,7 +13,8 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.zmckitlibrary.widgets.ZMCameraLayout
+import com.ziylanmedya.zmckit.ZMCKitManager
+import com.ziylanmedya.zmckit.widgets.ZMCameraLayout
 
 class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : ViewGroupManager<FrameLayout>() {
 
@@ -121,7 +122,6 @@ class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : V
             snapAPIToken = apiToken!!,
             partnerGroupId = groupId!!,
             lensId = lensId!!,
-            cameraFacingFront = showFrontCamera,
             cameraListener = object : ZMCKitManager.ZMCameraListener {
                 override fun onImageCaptured(imageUri: Uri) {
                     // Emit captured image event to React Native
@@ -150,7 +150,6 @@ class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : V
             context = lifecycleOwner,
             snapAPIToken = apiToken!!,
             partnerGroupId = groupId!!,
-            cameraFacingFront = showFrontCamera,
             cameraListener = object : ZMCKitManager.ZMCameraListener {
                 override fun onImageCaptured(imageUri: Uri) {
                     // Emit captured image event to React Native
