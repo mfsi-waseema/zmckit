@@ -13,8 +13,8 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.ziylanmedya.zmckit.ZMCKitManager
-import com.ziylanmedya.zmckit.widgets.ZMCameraLayout
+import com.zmckitlibrary.lib.ZMCKitManager
+import com.zmckitlibrary.lib.widgets.ZMCameraLayout
 
 class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : ViewGroupManager<FrameLayout>() {
 
