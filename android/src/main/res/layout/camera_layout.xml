@@ -1,7 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.zmckitlibrary.lib.widgets.ZCameraLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/snap_camera_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"/>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/camera_layout_root">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ViewStub
+            android:id="@+id/camerakit_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inflatedId="@+id/camerakit_root" />
+    </FrameLayout>
+
+    <!-- Lens Carousel RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lens_carousel"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:clipToPadding="false"
+        android:paddingStart="100dp"
+        android:paddingEnd="100dp"
+        app:layout_constraintBottom_toTopOf="@id/button_capture"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Snap Capture Button -->
+    <com.snap.camerakit.support.widget.SnapButtonView
+        android:id="@+id/button_capture"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="30dp"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeWidth="3dp"
+        app:strokeColor="@color/camera_kit_snap_button_idle"
+        app:centerFillColor="@color/camera_kit_snap_button_idle" />
+
+    <!-- Snap Attribution -->
+    <include
+        android:id="@+id/snap_attribution"
+        layout="@layout/camera_kit_snap_attribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</merge>

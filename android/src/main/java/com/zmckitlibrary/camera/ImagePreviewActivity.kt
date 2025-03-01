@@ -1,4 +1,4 @@
-package com.zmckitlibrary.lib.camera
+package com.zmckitlibrary.camera
 
 import android.content.ContentValues
 import android.content.Intent
@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.zmckitlibrary.R
-import com.zmckitlibrary.lib.camera.Constants.EXTRA_IMAGE_URI
+import com.zmckitlibrary.camera.Constants.EXTRA_IMAGE_URI
 
 import java.io.File
 import java.io.InputStream

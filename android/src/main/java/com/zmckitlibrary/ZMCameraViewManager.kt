@@ -13,8 +13,7 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.ViewGroupManager
 import com.facebook.react.uimanager.annotations.ReactProp
 import com.facebook.react.modules.core.DeviceEventManagerModule
-import com.zmckitlibrary.lib.ZMCKitManager
-import com.zmckitlibrary.lib.widgets.ZMCameraLayout
+import com.zmckitlibrary.widgets.ZMCameraLayout
 
 class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : ViewGroupManager<FrameLayout>() {
 
@@ -122,6 +121,7 @@ class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : V
             snapAPIToken = apiToken!!,
             partnerGroupId = groupId!!,
             lensId = lensId!!,
+            cameraFacingFront = showFrontCamera,
             cameraListener = object : ZMCKitManager.ZMCameraListener {
                 override fun onImageCaptured(imageUri: Uri) {
                     // Emit captured image event to React Native
@@ -132,9 +132,9 @@ class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : V
 
                 override fun onLensChange(lensId: String) {
                     // Emit lens change event to React Native
-//                    val params = Arguments.createMap()
-//                    params.putString("lensId", lensId)
-//                    sendEvent("onLensChange", params)
+                    val params = Arguments.createMap()
+                    params.putString("lensId", lensId)
+                    sendEvent("onLensChange", params)
                 }
 
                 override fun shouldShowDefaultPreview(): Boolean {
@@ -150,6 +150,7 @@ class ZMCameraViewManager(private val reactContext: ReactApplicationContext) : V
             context = lifecycleOwner,
             snapAPIToken = apiToken!!,
             partnerGroupId = groupId!!,
+            cameraFacingFront = showFrontCamera,
             cameraListener = object : ZMCKitManager.ZMCameraListener {
                 override fun onImageCaptured(imageUri: Uri) {
                     // Emit captured image event to React Native

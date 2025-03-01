@@ -1,18 +1,16 @@
-package com.zmckitlibrary.lib.widgets
+package com.zmckitlibrary.widgets
 
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.KeyEvent
-import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.snap.camerakit.ImageProcessor
-import com.snap.camerakit.UnauthorizedApplicationException
+import com.snap.camerakit.Session
 import com.snap.camerakit.lenses.LensesComponent
 import com.snap.camerakit.lenses.whenHasSome
 import com.zmckitlibrary.R
-import com.zmckitlibrary.lib.ZMCKitManager
+import com.zmckitlibrary.ZMCKitManager
 import java.io.Closeable
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -22,8 +20,7 @@ class ZMCameraLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private lateinit var ZCameraLayout: ZCameraLayout
-    private var cameraSession: com.snap.camerakit.Session? = null
+    private lateinit var snapCameraLayout: SnapCameraLayout
     private val closeOnDestroy = mutableListOf<Closeable>()
 
     // Private initialize method
@@ -34,29 +31,18 @@ class ZMCameraLayout @JvmOverloads constructor(
         applyLensById: String?,
         cameraListener: ZMCKitManager.ZMCameraListener?
     ) {
-        inflate(context, R.layout.camera_layout, this)
+        inflate(context, R.layout.snap_camera_layput, this)
 
-        ZCameraLayout = findViewById<ZCameraLayout>(R.id.snap_camera_layout).apply {
-            configureSession { apiToken(apiToken) }
-
-            configureLensesCarousel {
-                observedGroupIds = lensGroupIds
-                closeButtonEnabled = false
-                disableIdle = true
-
-                applyLensById?.let {
-                    configureEachItem { item ->
-                        item.enabled = item.lens.id == applyLensById
-                    }
-                    enabled = false
-                }
+        snapCameraLayout = findViewById<SnapCameraLayout>(R.id.snap_camera_layout).apply {
+            configureSession {
+                apiToken(apiToken)
             }
 
-            captureButton.visibility = View.VISIBLE
-
             onSessionAvailable { session ->
-                cameraSession = session
-                handleSessionAvailable(session, lensGroupIds, applyLensById, cameraFacingFront, cameraListener)
+                handleSessionAvailable(
+                    session, lensGroupIds,
+                    applyLensById, cameraFacingFront
+                )
             }
 
             onImageTaken { bitmap ->
@@ -71,19 +57,23 @@ class ZMCameraLayout @JvmOverloads constructor(
                 }
             }
 
-            onError { error ->
-                val exception = mapErrorToException(error)
-                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
+            onAppliedLens { lensId ->
+                cameraListener?.onLensChange(lensId)
+            }
+
+            onError { exception ->
+                exception.message?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     private fun handleSessionAvailable(
-        session: com.snap.camerakit.Session,
+        session: Session,
         lensGroupIds: Set<String>,
         applyLensById: String?,
-        cameraFacingFront: Boolean,
-        listener: ZMCKitManager.ZMCameraListener?
+        cameraFacingFront: Boolean
     ) {
         val appliedLensById = AtomicBoolean()
         closeOnDestroy.add(
@@ -99,42 +89,19 @@ class ZMCameraLayout @JvmOverloads constructor(
                                 )
                             }
                         }
+                    } else {
+                        requireActivity().runOnUiThread {
+                            snapCameraLayout.setupCarousel(lenses)
+                        }
+
+                        lenses.first().let {
+                            snapCameraLayout.applyLens(it)
+                        }
                     }
                 }
             }
         )
-
-        // Observe carousel events and notify when the lens is selected
-        closeOnDestroy.add(
-            session.lenses.carousel.observe { event ->
-                when (event) {
-                    is LensesComponent.Carousel.Event.Activated.WithLens -> {
-                        listener?.onLensChange(event.lens.id) // Notify about the selected lens
-                    }
-                    else -> {
-                        // Handle other carousel events if needed
-                    }
-                }
-            }
-        )
-        ZCameraLayout.startPreview(facingFront = cameraFacingFront)
-    }
-
-    private fun mapErrorToException(error: Throwable): Exception {
-        return when (error) {
-            is UnauthorizedApplicationException ->
-                IllegalStateException("Application is not authorized to use CameraKit", error)
-            is ZCameraLayout.Failure.DeviceNotSupported ->
-                UnsupportedOperationException("Device not supported by CameraKit", error)
-            is ZCameraLayout.Failure.MissingPermissions ->
-                SecurityException(
-                        "Camera permissions not granted. Please enable them in settings.")
-            is ImageProcessor.Failure.Graphics ->
-                RuntimeException("Graphics processing failure in CameraKit", error)
-            is LensesComponent.Processor.Failure ->
-                RuntimeException("Lenses processing failure in CameraKit", error)
-            else -> Exception("Unexpected error in CameraKit", error)
-        }
+        snapCameraLayout.startPreview(facingFront = cameraFacingFront)
     }
 
     // Public function to launch the camera in product view mode (single lens mode)
@@ -178,7 +145,7 @@ class ZMCameraLayout @JvmOverloads constructor(
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        return if (ZCameraLayout.dispatchKeyEvent(event)) {
+        return if (snapCameraLayout.dispatchKeyEvent(event)) {
             true
         } else {
             super.dispatchKeyEvent(event)

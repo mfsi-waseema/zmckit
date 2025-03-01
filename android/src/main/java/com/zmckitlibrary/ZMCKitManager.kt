@@ -1,13 +1,13 @@
-package com.zmckitlibrary.lib
+package com.zmckitlibrary
 
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
-import com.zmckitlibrary.lib.camera.Constants.EXTRA_IMAGE_URI
-import com.zmckitlibrary.lib.camera.ImagePreviewActivity
-import com.zmckitlibrary.lib.widgets.ZMCameraLayout
+import com.zmckitlibrary.widgets.ZMCameraLayout
+import com.zmckitlibrary.camera.Constants.EXTRA_IMAGE_URI
+import com.zmckitlibrary.camera.ImagePreviewActivity
 
 class ZMCKitManager private constructor() {
 
@@ -19,11 +19,8 @@ class ZMCKitManager private constructor() {
         // Required method to handle lens change
         fun onLensChange(lensId: String)
 
-        // Optional flag for showing the default preview
-        fun shouldShowDefaultPreview(): Boolean {
-            // Default implementation (true)
-            return true
-        }
+        // Required method to handle show preview
+        fun shouldShowDefaultPreview(): Boolean
     }
 
     companion object {
@@ -42,6 +39,7 @@ class ZMCKitManager private constructor() {
             snapAPIToken: String,
             partnerGroupId: String,
             lensId: String,
+            cameraFacingFront: Boolean,
             cameraListener: ZMCameraListener?
         ): ZMCameraLayout {
             // Initialize the ZMCCameraLayout programmatically
@@ -51,6 +49,7 @@ class ZMCKitManager private constructor() {
                     snapAPIToken,
                     partnerGroupId,
                     lensId,
+                    cameraFacingFront = cameraFacingFront,
                     cameraListener = cameraListener
                 )
             }
@@ -70,6 +69,7 @@ class ZMCKitManager private constructor() {
             context: Context,
             snapAPIToken: String,
             partnerGroupId: String,
+            cameraFacingFront: Boolean,
             cameraListener: ZMCameraListener?
         ): ZMCameraLayout {
             // Initialize the ZMCCameraLayout programmatically
@@ -78,6 +78,7 @@ class ZMCKitManager private constructor() {
                 configureGroupViewLayout(
                     snapAPIToken,
                     partnerGroupId,
+                    cameraFacingFront = cameraFacingFront,
                     cameraListener = cameraListener
                 )
             }
