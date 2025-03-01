@@ -11,6 +11,7 @@
         <activity
             android:name=".camera.ImagePreviewActivity"
             android:exported="true"
+			android:theme="@style/Theme.AppCompat.NoActionBar">
             />
     </application>
 </manifest>
