@@ -41,6 +41,7 @@ public class ZMMultiLensCameraView: ZMCameraView {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.delegate = self
+    	collectionView.clipsToBounds = false
         collectionView.dataSource = self
         collectionView.register(LensCell.self, forCellWithReuseIdentifier: "LensCell")
         return collectionView
