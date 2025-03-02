@@ -36,6 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:strokeWidth="3dp"
+        app:progressDuration="2"
         app:strokeColor="@color/camera_kit_snap_button_idle"
         app:centerFillColor="@color/camera_kit_snap_button_idle" />
 

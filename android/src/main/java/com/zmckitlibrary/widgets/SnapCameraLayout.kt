@@ -138,7 +138,7 @@ open class SnapCameraLayout @JvmOverloads constructor(
                     }
                 }
             } else {
-                errorHandler.accept(Failure.OnError("Permissions missing $requiredPermissions"))
+                errorHandler.accept(Failure.OnError("Permissions missing"))
             }
         }.closeOnDetach()
     }
